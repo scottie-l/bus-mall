@@ -1,0 +1,40 @@
+/* id = # ,  class = . */
+
+#results {
+    display: inline-block;
+    width: 24%;
+    height: 50%;
+}
+
+.pics {
+    display: inline-block;
+    width:73%;
+    height: 50%;
+}
+
+#picLeft {
+    display: inline-block;
+    Width: 24%;
+    height: 100px;
+    padding-right: 15px;
+    }
+
+#picCenter {
+    display: inline-block;
+    width:24%;
+    height: 100px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#picRight {
+    display:inline-block;
+    height: 100px;
+    width: 24%;
+    padding-left: 25px;
+}
+
+p {
+    margin: 20px;
+    padding: 10px;
+}
