@@ -1,0 +1,43 @@
+/* id = # ,  class = . */
+
+#results {
+    border: thin solid black;
+    float: left;
+    margin-top: 0px;
+    width: 20%;
+    height: 500px;
+}
+
+.pics {
+    display: inline-block;
+    width:70;
+    height: 50%;
+}
+
+#picLeft {
+    display: inline-block;
+    Width: 23%;
+    height: 250px;
+    padding-left: 30px;
+    padding-right: 50px;
+    }
+
+#picCenter {
+    display: inline-block;
+    width:23%;
+    height: 250px;
+    padding-right: 50px;
+    padding-left: 50px;
+}
+
+#picRight {
+    display:inline-block;
+    height: 250px;
+    width: 23%;
+    padding-left: 50px;
+}
+
+p {
+    /* margin: 50px;
+    padding: 50px; */
+}
