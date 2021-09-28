@@ -1,40 +1,43 @@
 /* id = # ,  class = . */
 
 #results {
-    display: inline-block;
-    width: 24%;
-    height: 50%;
+    border: thin solid black;
+    float: left;
+    margin-top: 0px;
+    width: 20%;
+    height: 500px;
 }
 
 .pics {
     display: inline-block;
-    width:73%;
+    width:70;
     height: 50%;
 }
 
 #picLeft {
     display: inline-block;
-    Width: 24%;
-    height: 100px;
-    padding-right: 15px;
+    Width: 23%;
+    height: 250px;
+    padding-left: 30px;
+    padding-right: 50px;
     }
 
 #picCenter {
     display: inline-block;
-    width:24%;
-    height: 100px;
-    margin-left: auto;
-    margin-right: auto;
+    width:23%;
+    height: 250px;
+    padding-right: 50px;
+    padding-left: 50px;
 }
 
 #picRight {
     display:inline-block;
-    height: 100px;
-    width: 24%;
-    padding-left: 25px;
+    height: 250px;
+    width: 23%;
+    padding-left: 50px;
 }
 
 p {
-    margin: 20px;
-    padding: 10px;
+    /* margin: 50px;
+    padding: 50px; */
 }

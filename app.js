@@ -1,18 +1,7 @@
 'use strict';
 
-const allImages = []; // storage array for images
-const totalClicks = 0; // var to track total clicks
-
-// Var list of vars needed
-function Image(url, name) {
-    this.clicks = 0;
-    this.url = `img/${url}`;
-    this.name = name;
-    // this.timesShown = timesShown;
-    allImages.push(this);
-}
-
-console.log(allImages);
+let allImages = []; // storage array for images
+let totalClicks = 0; // var to track total number times voted, total of 25 votes
 
 // Image rendering
 // let picsImageEl = document.getElementsByClassName('pics');
@@ -20,69 +9,92 @@ let picLeftImageEl = document.getElementById('picLeft');
 let picCenterImageEl = document.getElementById('picCenter');
 let picRightImageEl = document.getElementById('picRight');
 
-function renderPics() {
-    let leftImageIndex = Math.floor(Math.random() * allImages.length);
-    let centerImageIndex = Math.floor(Math.random() * allImages.length);
-    let rightImageIndex = Math.floor(Math.random() * allImages.length);
-    
-    do (leftImageIndex === centerImageIndex) {
-        centerImageIndex = Math.floor(Math.random() * allImages.length);
-    }   
-        while (leftImageIndex === rightImageIndex) {
-            rightImageIndex = Math.floor(Math.random() * allImages.length);
-            }
-                while (rightImageIndex === centerImageIndex){
-                    centerImageIndex = Math.floor(Math.random() * allImages.length);
-                }
-
-                let left = allImages[leftImageIndex];
-                let center = allImages[centerImageIndex];
-                let right = allImages[rightImageIndex];
-
-                picLeftImageEl.src = left.url;
-                picLeftImageEl.name = left.name;
-                left.timesShown ++;
-                picCenterImageEl.src = center.url;
-                picCenterImageEl.name = center.name;
-                center.timesShown ++;
-                picRightImageEl.src = right.url;
-                picRightImageEl.name = right.name;
-                right.timesShown ++;
-    }
-
-    function handleclick(event) {
-        event.preventDefault();
-        let imageElement = event.target;
-        console.log(imageElement.name);
-        for (let i = 0; i < allImages.length; i++) {
-            if (imageElement.name === allImages[i].name) {
-                allImages[i].clicks ++;
-                console.log(allImages[i]);
-            }
-        }
-        renderPics();
+// Var list of vars needed
+function Image(url, name) {
+  this.clicks = 0;
+  this.url = url;
+  this.name = name;
+  this.timesShown = 0;
+  allImages.push(this);
 }
+
+console.log(allImages);
+
+function renderPics() {
+  let leftImageIndex = Math.floor(Math.random() * allImages.length);
+  let centerImageIndex = Math.floor(Math.random() * allImages.length);
+  let rightImageIndex = Math.floor(Math.random() * allImages.length);
+
+  if (leftImageIndex === centerImageIndex) {
+    centerImageIndex = Math.floor(Math.random() * allImages.length);
+  }
+  if (leftImageIndex === rightImageIndex) {
+    rightImageIndex = Math.floor(Math.random() * allImages.length);
+  }
+  if (rightImageIndex === centerImageIndex) {
+    centerImageIndex = Math.floor(Math.random() * allImages.length);
+  }
+
+  console.log(leftImageIndex);
+
+  let left = allImages[leftImageIndex];
+  left.timesShown ++;
+  let center = allImages[centerImageIndex];
+  center.timesShown ++;
+  let right = allImages[rightImageIndex];
+  right.timesShown ++;
+
+  console.log(left.url);
+
+  picLeftImageEl.src = left.url;
+  picLeftImageEl.name = left.name;
+  left.timesShown++;
+  picCenterImageEl.src = center.url;
+  picCenterImageEl.name = center.name;
+  center.timesShown++;
+  picRightImageEl.src = right.url;
+  picRightImageEl.name = right.name;
+  right.timesShown++;
+  console.log(left.timesShown);
+}
+
+function handleclick(event) {
+  event.preventDefault();
+  let imageElement = event.target;
+  console.log(imageElement.name);
+  console.log(imageElement);
+  for (let i = 0; i < allImages.length; i++) {
+    if (imageElement.name === allImages[i].name) {
+      allImages[i].clicks++;
+      console.log(allImages[i]);
+    }
+  }
+  renderPics();
+  totalClicks ++;
+}
+
+new Image('img/bag.jpg', 'bag');
+new Image('img/banana.jpg', 'banana');
+new Image('img/bathroom.jpg', 'bathroom');
+new Image('img/boots.jpg', 'boots');
+new Image('img/breakfast.jpg', 'breakfast');
+new Image('img/bubblegum.jpg', 'bubblegum');
+new Image('img/chair.jpg', 'chair');
+new Image('img/cthulhu.jpg', 'cthulhu');
+new Image('img/dog-duck.jpg', 'dog-duck');
+new Image('img/dragon.jpg', 'dragon');
+new Image('img/pen.jpg', 'pen');
+new Image('img/pet-sweep.jpg', 'pet-sweep');
+new Image('img/scissors.jpg', 'scissors');
+new Image('img/shark.jpg', 'shark');
+new Image('img/sweep.png', 'sweep');
+new Image('img/tauntaun.jpg', 'tauntaun');
+new Image('img/unicorn.jpg', 'unicorn');
+new Image('img/water-can.jpg', 'water-can');
+new Image('img/wine-glass.jpg', 'wine-glass');
+
+renderPics();
 
 picLeftImageEl = addEventListener('click', handleclick);
 picCenterImageEl = addEventListener('click', handleclick);
 picRightImageEl = addEventListener('click', handleclick);
-
-new Image('bag.jpg', 'bag');
-new Image('banana.jpg', 'banana');
-new Image('bathroom.jpg', 'bathroom');
-new Image('boots.jpg', 'boots');
-new Image('breakfast.jpg', 'breakfast');
-new Image('bubblegum.jpg', 'bubblegum');
-new Image('chair.jpg', 'chair');
-new Image('cthulhu.jpg','cthulhu');
-new Image('dog-duck.jpg', 'dog-duck');
-new Image('dragon.jpg', 'dragon');
-new Image('pen.jpg', 'pen');
-new Image('pet-sweep.jpg', 'pet-sweep');
-new Image('scissors.jpg', 'scissors');
-new Image('shark.jpg', 'shark');
-new Image('sweep', 'sweep');
-new Image('tauntaun.jpg', 'tauntaun');
-new Image('unicorn,jpg', 'unicorn');
-new Image('water-can', 'water-can');
-new Image('wine-glass.jpg', 'wine-glass');
