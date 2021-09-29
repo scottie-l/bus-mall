@@ -1,7 +1,6 @@
 # bus-mall
 
-
-## User Story
+## User Story `#1`
 
 As a user, I would like to display three unique products by chance so that the viewers can pick a favorite.
 
@@ -32,3 +31,14 @@ After voting rounds have been completed, remove the event listeners on the produ
 Add a button with the text View Results, which when clicked displays the list of all the products followed by the votes received, and number of times seen for each. Example: banana had 3 votes, and was seen 5 times.
 
 NOTE: Displayed product names should match the file name for the product. Example: the product represented with dog-duck.jpg should be displayed to the user as exactly “dog-duck” when the results are shown.
+
+## User Story `#2`
+
+As a marketeer, I want to prevent users from seeing the same image in two subsequent iterations, so that they are not biased.
+Update your algorithm to randomly generate three unique product images from the images directory.
+Update your algorithm so that new products are generated, confirm that these products are not duplicates from the immediate previous set.
+As a marketing manager, I would like a visual representation of how many times a product was clicked so that I can visually analyze the results.
+
+Using ChartJS (imported from CDN), display the vote totals and the number of times a product was viewed in a bar chart format. (hint: don’t forget about the <canvas> tags)
+Place the bar chart in the section located beneath your three product images
+The bar charts should only appear after all voting data has been collected.
