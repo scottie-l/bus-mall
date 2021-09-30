@@ -3,10 +3,10 @@
 // Gloal variables
 let allImages = []; // storage array for images
 let likeCounter = 0; // total number of votes/image
+let previouslyPickedImages = []; // new array with selected images inside.
 let leftImageOnPage; // Left image displayed on pg. Unused
 let centerImageOnPage; // Center image displayed on pg. Unused
 let rightImageOnPage; // Right image displayed on pg. Unused
-let previouslyPickedImages = []; // new array with selected images inside. Unused
 
 // DOM references
 const resultsButton = document.getElementById('resultsButton');
@@ -23,35 +23,27 @@ const Image = function (url, name) {
   this.timesShown = 0; // track number of times image shown
   allImages.push(this); // push images into starting array
 };
-
 console.log(allImages);
 
+// Code borrowed from Alexander Williams, lines 30-38
+// function to get random images to display
+function populateIndexArray() {
+  while (previouslyPickedImages.length < 6) {
+    let randomIndex = Math.floor(Math.random() * allImages.length);
+    while (!previouslyPickedImages.includes(randomIndex)) {
+      previouslyPickedImages.push(randomIndex);
+    }
+  }
+  // console.log(previouslyPickedImages);
+}
+
+// Code borrowed from Alexander Williams, lines 42-46
+// statement to get different image displayed in all 3 boxes
 function renderPics() {
-  // function to get random images to display
-  let leftImageOnPage = Math.floor(Math.random() * allImages.length);
-  let centerImageOnPage = Math.floor(Math.random() * allImages.length);
-  let rightImageOnPage = Math.floor(Math.random() * allImages.length);
-
-  // statement to get different image displayed in all 3 boxes
-  if (leftImageOnPage === centerImageOnPage) {
-    leftImageOnPage = Math.floor(Math.random() * allImages.length);
-  }
-  if (leftImageOnPage === rightImageOnPage) {
-    leftImageOnPage = Math.floor(Math.random() * allImages.length);
-  }
-  if (centerImageOnPage === leftImageOnPage) {
-    centerImageOnPage = Math.floor(Math.random() * allImages.length);
-  }
-  if (centerImageOnPage === rightImageOnPage) {
-    centerImageOnPage = Math.floor(Math.random() * allImages.length);
-  }
-  if (rightImageOnPage === leftImageOnPage) {
-    rightImageOnPage = Math.floor(Math.random() * allImages.length);
-  }
-  if (rightImageOnPage === centerImageOnPage) {
-    rightImageOnPage = Math.floor(Math.random() * allImages.length);
-  }
-
+  populateIndexArray();
+  let leftImageOnPage = previouslyPickedImages.shift(); // removes and updates index with new images/numbers
+  let centerImageOnPage  = previouslyPickedImages.shift(); // repeats code from above for center image
+  let rightImageOnPage = previouslyPickedImages.shift(); // repeats code from above for center image
   console.log(leftImageOnPage);
   console.log(centerImageOnPage);
   console.log(rightImageOnPage);
@@ -85,7 +77,7 @@ function handleclick(event) {
     }
   }
   likeCounter++;
-  renderPics();
+  renderPics(); // changes likeCounter from 25 to 3 for testing
   if (likeCounter === 25) { // function to stop voting and populate results
     leftImageEl.removeEventListener('click', handleclick);
     centerImageEl.removeEventListener('click', handleclick);
@@ -94,7 +86,7 @@ function handleclick(event) {
   console.log(likeCounter);
 }
 
-// stopping display of images & render button to view results
+// function to stop display of images & render button to view results
 function handleButtonClick(event) {
   event.preventDefault();
   let list = document.querySelector('ul');
@@ -136,31 +128,49 @@ rightImageEl.addEventListener('click', handleclick);
 resultsButton.addEventListener('click', handleButtonClick);
 
 // Chartjs function
-
-
-function renderChart() {
+function renderChart() { // create variables for labels & data to populate chart with
   let newName = [];
   let newClicks = [];
   let newTimesShown = [];
-  for (let i = 0; i < allImages.length; i++) {
-    console.log(allImages[i].name);
+  for (let i = 0; i < allImages.length; i++) { // loop to go through array and add the data
     newName.push(allImages[i].name);
     newClicks.push(allImages[i].clicks);
     newTimesShown.push(allImages[i].timesShown);
+    console.log(allImages[i].name);
   }
 
-  console.log(newName);
+  // local storage statement to grab data
+  const jsonData = localStorage.getItem(allImages); // create variable to use to read the data
+  let parsedData = JSON.parse(jsonData); // create variable to parse the data
+  if (parsedData) { 
+    for (let i = 0; i < parsedData.length; i++) { // loop for going through the dataset and put into array
+      newTimesShown[i] += parsedData[i]; //+= will add and update the data for that key
+      newClicks[i] += parsedData[i];
+    }
+  }
 
-  const ctx = document.getElementById('myChart').getContext('2d');
-  const myChart = new Chart(ctx, { // called inside JS but defined in HTML, so thinks unused. @import?
+  // statements to put the data into localStorage
+  newName.push(allImages);
+  newClicks.push(allImages);
+  newTimesShown.push();
+  let stringifiedDataTimesShown = JSON.stringify(newTimesShown);
+  let stringifiedDataClick = JSON.stringify(newClicks);
+  localStorage.setItem('newTimesShown', stringifiedDataTimesShown);
+  localStorage.setItem('newClicks', stringifiedDataClick);
+  console.log(newTimesShown);
+  // console.log(parsedData.type); Cannot read properties of null (reading 'Type'). These console.logs break the chart, why?
+  // console.log(jsonData.type);
+
+  const ctx = document.getElementById('myChart').getContext('2d'); // point to HTML tag and create chart
+  const myChart = new Chart(ctx, { // called inside JS but defined in HTML, so thinks it's unused. try @import?
     type: 'bar',
     data: {
       labels: newName,
       datasets: [
         {
           label: '# of Votes',
-          data: newClicks,
-          backgroundColor: [
+          data: newClicks, // data to display the number of votes for each image
+          backgroundColor: [ // creating bars to display
             'rgba(255, 99, 132, 0.2)', // red
             'rgba(54, 162, 235, 0.2)', // blue
             'rgba(255, 206, 86, 0.2)', // light orange
@@ -181,7 +191,7 @@ function renderChart() {
             'rgba(128, 36, 33, 0.2)', // maroon
             'rgba(33, 128, 44, 0.2)', // dark green
             'rgba(93, 33, 128, 0.2)'], // dark purple
-          borderColor: [
+          borderColor: [ // creating the borders of the bars to display
             'rgba(255, 99, 132, 1)', // red
             'rgba(54, 162, 235, 1)', // blue
             'rgba(255, 206, 86, 1)', // light orange
@@ -206,7 +216,7 @@ function renderChart() {
         },
         {
           label: '# of times shown',
-          data: newTimesShown,
+          data: newTimesShown, // data to display the number of times each image was shown
           backgroundColor: [
             'rgba(255, 99, 132, 0.2)', // red
             'rgba(54, 162, 235, 0.2)', // blue
