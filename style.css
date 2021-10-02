@@ -44,6 +44,7 @@ body {
 }
 
 p {
-    /* margin: 50px;
-    padding: 50px; */
+    text-align: center;
+    margin-left: 250px;
+    padding: 50px;
 }
